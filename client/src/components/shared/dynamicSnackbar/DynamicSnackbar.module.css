@@ -1,0 +1,9 @@
+.snackbarWrapper {
+    width: var(--snackbar-width);
+}
+
+.alertWrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
