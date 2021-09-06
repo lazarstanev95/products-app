@@ -58,6 +58,7 @@ const users = createSlice({
         },
         getUsersFailure: loadingUsersFailed,
         resetUsers(state, { payload }: PayloadAction<string | undefined>) {
+            //TODO
             state.usersFetched = false;
         },
         setCurrentUser(state, { payload }: PayloadAction<any>) {
@@ -90,7 +91,7 @@ export const getUsers = (payload: any): AppThunk => async (dispatch, getState) =
     try {
         dispatch(getUsersStart());
         const response: any = await userService.getUsers(payload);
-        const { users, usersPage } = getState().users;
+        const { users } = getState().users;
         const currentPage = payload.page;
         let itemsData;
         if (currentPage !== 1) {
@@ -139,7 +140,7 @@ export const loginUser = (payload: any, history: any): AppThunk => async (dispat
     }
 }
 
-export const logoutUser = (history: any): AppThunk => (dispatch) => {
+export const logoutUser = (history?: any): AppThunk => (dispatch) => {
     localStorage.removeItem('jwtToken');
     setAuthToken(false);
     dispatch(setCurrentUser({}));

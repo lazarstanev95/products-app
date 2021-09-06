@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserById, saveUserById, selectUserById } from './UsersSlice';
+import { saveUserById, selectUserById } from './UsersSlice';
 import UserService from '../../services/userService';
 import { useHistory } from 'react-router';
 
