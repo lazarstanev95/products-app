@@ -1,5 +1,5 @@
 
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import { configureStore, ThunkAction, Action, getDefaultMiddleware } from '@reduxjs/toolkit';
 import snackbarReducer from '../components/shared/dynamicSnackbar/DynamicSnackbarSlice';
 import usersReducer from '../components/users/UsersSlice';
 
@@ -7,7 +7,10 @@ export const store = configureStore({
     reducer: {
         snackbar: snackbarReducer,
         users: usersReducer
-    }
+    },
+    middleware: getDefaultMiddleware({
+        serializableCheck: false
+    })
 });
 
 export type AppDispatch = typeof store.dispatch;

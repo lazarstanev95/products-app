@@ -1,0 +1,28 @@
+.horizontalTrack {
+    position: absolute;
+    height: 8px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    z-index: 1300;
+}
+
+.thumb {
+    background: grey;
+    border-radius: 5px;
+}
+
+.wrap {
+    height: 100%;
+    word-break: break-word;
+}
+
+.loaderWrap {
+    position: relative;
+    width: 100%;
+    height: 125px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}

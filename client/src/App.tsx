@@ -1,12 +1,11 @@
 import './App.css';
 import { useDispatch } from 'react-redux';
-import { openSnackbar } from './components/shared/dynamicSnackbar/DynamicSnackbarSlice';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, useHistory } from 'react-router-dom';
 import Routes from './components/routes/Routes';
 import Navbar from './components/Navbar';
 import jwt_decode from 'jwt-decode';
 import { useEffect } from 'react';
-import { setCurrentUser } from './components/users/UsersSlice';
+import { logoutUser, setCurrentUser } from './components/users/UsersSlice';
 import { setAuthToken } from './services/DataService'
 
 function App() {

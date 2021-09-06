@@ -1,0 +1,7 @@
+.scroll-vertical-track {
+    position: absolute;
+    height: 8px;
+    right: 5px;
+    top: 5px;
+    z-index: 1300;
+}

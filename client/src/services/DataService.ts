@@ -25,6 +25,12 @@ class DataService {
             .catch(this.handlerError)
     }
 
+    static patch(url: any, options?: any) {
+        return axios
+            .patch(url, options)
+            .catch(this.handlerError)
+    }
+
     static put(url: any, options?: any) {
         return axios
             .put(url, options)
