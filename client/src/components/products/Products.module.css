@@ -1,3 +1,8 @@
+.productsWrap {
+    overflow-y: scroll;
+    height: 100%;
+}
+
 .cardGrid {
     padding-top: 80px;
 }

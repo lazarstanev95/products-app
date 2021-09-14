@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { selectIsAuthenticated } from '../users/UsersSlice';
 import EditUser from '../users/EditUser';
 import Products from '../products/Products';
+import AddProduct from '../products/AddProduct';
 
 export default function Routes() {
     const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -17,6 +18,8 @@ export default function Routes() {
             <Route path='/' exact component={Home}/>
             <Route path='/login' component={Login}/>
             <Route path='/register' component={Register}/>
+            <PrivateRoute path='/products/add' component={AddProduct}/>
+            <PrivateRoute path='/edit/:id' component={AddProduct}/>
             <PrivateRoute path='/users' /* isAuthenticated={true} */ component={Users}/>
             <PrivateRoute path='/editUser/:id' /* isAuthenticated={true} */ component={EditUser}/>
             <Route path='/products' component={Products}/>

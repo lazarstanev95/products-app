@@ -25,7 +25,7 @@ function App() {
 
   return (
     <BrowserRouter>
-          <div>
+          <div className={'appWrapper'}>
             <Navbar />
             <Routes />
           </div>

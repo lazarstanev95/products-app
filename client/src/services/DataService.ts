@@ -19,9 +19,9 @@ class DataService {
             .catch(this.handlerError)
     }
 
-    static post(url: any, options?: any) {
+    static post(url: any, options?: any, moreOptions?: any) {
         return axios
-            .post(url, options)
+            .post(url, options, moreOptions)
             .catch(this.handlerError)
     }
 

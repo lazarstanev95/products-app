@@ -9,12 +9,14 @@ import Grid from '@material-ui/core/Grid';
 import CardMedia from '@material-ui/core/CardMedia';
 import { selectIsAuthenticated } from '../users/UsersSlice';
 import styles from './ProductItem.module.css';
+import { useHistory } from 'react-router';
 
 export default function ProductItem(props: any) {
     const isAuthenticated = useSelector(selectIsAuthenticated);
+    const history = useHistory();
 
     const onEdit = () => {
-        props.history.push('/edit/' + props.products.id);
+        history.push('/edit/' + props.products.id);
     }
 
     return (
@@ -42,14 +44,14 @@ export default function ProductItem(props: any) {
                         </Button>
                     {
                         isAuthenticated ?
-                            <Button /* onClick={() => props.onAddToCart(props.products.id)} */ size="small" color="primary">
+                            <Button onClick={() => props.onAddToCart(props.products.id)} size="small" color="primary">
                                 Add to Cart
                             </Button> : null
                     }
-                    <Button size="small" color="primary" /* onClick={onEdit} *//* href={'/edit/' + this.props.products._id} */>
+                    <Button size="small" color="primary" onClick={onEdit} >
                         Edit
                     </Button>
-                    <Button /* onClick={() => props.onDelete(props.products.id)} */ size="small" color="primary">
+                    <Button onClick={() => props.onDelete(props.products.id)} size="small" color="primary">
                         Delete
                     </Button>
                 </CardActions>

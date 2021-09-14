@@ -1,3 +1,12 @@
 :root {
   --snackbar-width: 350px;
 }
+
+.appWrapper {
+  position: absolute;
+  inset: 0px; 
+  overflow: hidden; 
+  display: flex;
+  flex-direction: column; 
+  height: 100vh;
+}
