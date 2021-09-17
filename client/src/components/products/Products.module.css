@@ -1,8 +1,14 @@
 .productsWrap {
-    overflow-y: scroll;
-    height: 100%;
+    height: calc(100% - 30px);
 }
 
 .cardGrid {
     padding-top: 80px;
+}
+
+.contentWrap {
+    display: flex;
+    margin-left: 200px;
+    margin-right: 200px;
+    flex-wrap: wrap;
 }

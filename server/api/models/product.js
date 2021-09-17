@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 
 const productSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    name: { type: String, required: true },
-    price: { type: Number, required: true },
-    description: {type: String, required: true},
+    name: { type: String, required: false },
+    price: { type: Number, required: false },
+    description: {type: String, required: false },
     productImage: { type: String, required: false },
     userId: {
         type: mongoose.Schema.Types.ObjectId,

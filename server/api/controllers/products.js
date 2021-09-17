@@ -39,7 +39,12 @@ exports.product_create_product = (req, res, next) => {
 exports.product_get_all = async (req, res, next) => {
     const totalCount = await Product.countDocuments();
     console.log('totalCount', totalCount);
-    Product.find()
+    const page = req.body.page || 1;
+    const docs = req.body.docs || 1000;
+    let query = {};
+    Product.find(query)
+        .skip((page -1) * docs)
+        .limit(docs)
         .select('name price description _id productImage')
         .exec()
         .then(docs => {

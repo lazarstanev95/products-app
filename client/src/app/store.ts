@@ -3,12 +3,14 @@ import { configureStore, ThunkAction, Action, getDefaultMiddleware } from '@redu
 import snackbarReducer from '../components/shared/dynamicSnackbar/DynamicSnackbarSlice';
 import usersReducer from '../components/users/UsersSlice';
 import productsReducer from '../components/products/ProductsSlice';
+import dynamicConfirmPopupReducer from '../components/shared/dynamicConfirmPopup/DynamicConfirmPopupSlice';
 
 export const store = configureStore({
     reducer: {
         snackbar: snackbarReducer,
         users: usersReducer,
-        products: productsReducer
+        products: productsReducer,
+        confirmPopup: dynamicConfirmPopupReducer
     },
     middleware: getDefaultMiddleware({
         serializableCheck: false

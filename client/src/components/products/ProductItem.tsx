@@ -20,7 +20,7 @@ export default function ProductItem(props: any) {
     }
 
     return (
-        <Grid item /* key={card} */ xs={12} sm={6} md={4}>
+        <Grid item /* key={card} */ xs={12} sm={6} md={4} className={styles.tileWrap}>
             <Card className={styles.card} >
                 <CardMedia
                     className={styles.cardMedia}

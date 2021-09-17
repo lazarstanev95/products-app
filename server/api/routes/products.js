@@ -33,7 +33,7 @@ const upload = multer({
 
 router.post('/', checkAuth, /* upload.single('productImage'), */ productsController.product_create_product);
 
-router.get('/', productsController.product_get_all);
+router.post('/products', productsController.product_get_all);
 
 router.delete('/:productId', checkAuth, productsController.products_delete_product);
 

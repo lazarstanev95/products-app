@@ -1,0 +1,57 @@
+.wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    z-index: 9995;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.innerWrap {
+    border-radius: 2;
+    min-width: 400px;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    word-break: break-word;
+    background-color: #fff;
+    box-shadow: 0px 0px 12px -4px rgba(0, 0, 0, 1);
+    max-height: 90%;
+    overflow: auto;
+}
+
+.contentWrap {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 16px 24px;
+}
+
+.content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 24px;
+    color: #0a0f38;
+}
+
+.message {
+    font-size: 13px;
+    color: #4d5f75;
+}
+
+.buttonsWrap {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 27px;
+}

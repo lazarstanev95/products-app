@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUsers, selectUsers, selectUsersIsLoading, selectUsersFetched, selectUsersListHasMoreItems, resetUsers, DOCS_ON_PAGE } from './UsersSlice';
 import UserItem from './UserItem';
 import DynamicInfiniteScroll from '../shared/dynamicInfiniteScroll/DynamicInfiniteScroll';
+import styles from './Users.module.css';
 
 export default function Users() {
     let [searchString, setSearchString] = useState('');
@@ -71,7 +72,7 @@ export default function Users() {
                 <div style={{ marginLeft: 20, width: 200, textAlign: 'center', fontSize: 20, fontWeight: 500 }}>Email</div>
                 <div style={{ marginLeft: 20, width: 200, textAlign: 'center', fontSize: 20, fontWeight: 500 }}>Is Admin</div>
             </div>
-            <div style={{overflowY: 'auto', height: 500, padding: '0px 20px'}}>
+            <div style={{overflowY: 'auto', height: 450, padding: '0px 20px'}}>
                 <DynamicInfiniteScroll
                     hideHorizontalTrack={true}
                     autoHeight={false}
@@ -81,6 +82,7 @@ export default function Users() {
                     scrollOffset={1}
                     onScroll={handleScrollUsers}
                     manual={true}
+                    contentWrapperStyle={styles.contentWrapper}
                 >
                     {users.map((item: any, index: number) => {
                         return (

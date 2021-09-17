@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { createTheme, StylesProvider, ThemeProvider } from '@material-ui/core/styles';
 import { DynamicSnackbar } from './components/shared/dynamicSnackbar/DynamicSnackbar';
 import reportWebVitals from './reportWebVitals';
+import DynamicConfirmPopup from './components/shared/dynamicConfirmPopup/DynamicConfirmPopup';
 
 const theme = createTheme({
   palette: {
@@ -26,6 +27,7 @@ ReactDOM.render(
         <Provider store={store}>
           <App />
           <DynamicSnackbar />
+          <DynamicConfirmPopup />
         </Provider>
       </StylesProvider>
     </ThemeProvider>
