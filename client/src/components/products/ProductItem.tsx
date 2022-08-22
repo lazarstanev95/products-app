@@ -10,6 +10,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { selectIsAuthenticated } from '../users/UsersSlice';
 import styles from './ProductItem.module.css';
 import { useHistory } from 'react-router';
+import { IconButton } from '@material-ui/core';
+import { Favorite, FavoriteBorder } from '@material-ui/icons';
 
 export default function ProductItem(props: any) {
     const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -37,6 +39,21 @@ export default function ProductItem(props: any) {
                     <Typography>
                         {props.products.price}
                     </Typography>
+                    {
+                        props.isLiked ?
+                            <IconButton 
+                                onClick={() => props.onUnlike(props.products.id)} 
+                                classes={{root: styles.like}}
+                            >
+                                <Favorite />
+                            </IconButton> :
+                            <IconButton 
+                                onClick={() => props.onLike(props.products.id)}
+                                classes={{root: styles.unlike}}
+                            >
+                                <FavoriteBorder />
+                            </IconButton>
+                    }
                 </CardContent>
                 <CardActions>
                     <Button size="small" color="primary">

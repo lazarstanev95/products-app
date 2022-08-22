@@ -41,4 +41,8 @@ router.get('/:productId', productsController.products_get_product);
 
 router.patch('/:productId', checkAuth, productsController.products_update_product);
 
+router.patch('/like/:productId', checkAuth, productsController.products_like_product);
+
+router.patch('/unlike/:productId', checkAuth, productsController.products_unlike_product);
+
 module.exports = router;

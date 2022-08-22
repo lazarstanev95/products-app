@@ -42,6 +42,9 @@ const products = createSlice({
             //TODO
             state.productsFetched = false;
         },
+        updateProducts(state, { payload }: PayloadAction<any>) {
+            state.products = payload.data;
+        }
     }
 });
 
@@ -49,7 +52,8 @@ export const {
     getProductsStart,
     getProductsSuccess,
     getProductsFailed,
-    resetProducts
+    resetProducts,
+    updateProducts
 } = products.actions;
 
 export default products.reducer;
@@ -75,6 +79,22 @@ export const getProducts = (payload?: any): AppThunk => async (dispatch, getStat
         console.log('error', error);
         dispatch(getProductsFailed(error))
     }
+}
+
+export const updateProductsLikes = (payload?: any): AppThunk => async (dispatch, getState) => {
+    const { products } = getState().products;
+    products.map((product: any) => {
+        const isLiked = product.likes.some((id: any) => id === payload.userId);
+        if (isLiked && product.id === payload.productId) {
+            product.likes = product.likes.filter((id: any) => id !== payload.userId);
+        } else if (product.id === payload.productId){
+            product.likes.push(payload.userId);
+        }
+    });
+    const payloadNew = {
+        data: [...products]
+    }
+    dispatch(updateProducts(payloadNew));
 }
 
 export const selectProducts = (state: RootState) => state.products.products;

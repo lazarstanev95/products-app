@@ -4,6 +4,7 @@ export default class ProductEntity {
     description: string;
     price: number;
     productImage: string;
+    likes: string[];
     
     constructor(data: any) {
         this.id = data._id;
@@ -11,5 +12,6 @@ export default class ProductEntity {
         this.description = data.description;
         this.price = data.price;
         this.productImage = data.productImage;
+        this.likes = data.likes;
     }
 }

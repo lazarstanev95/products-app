@@ -6,6 +6,10 @@ const productSchema = mongoose.Schema({
     price: { type: Number, required: false },
     description: {type: String, required: false },
     productImage: { type: String, required: false },
+    likes: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }],
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

@@ -45,7 +45,7 @@ exports.product_get_all = async (req, res, next) => {
     Product.find(query)
         .skip((page -1) * docs)
         .limit(docs)
-        .select('name price description _id productImage')
+        .select('name price description _id productImage likes')
         .exec()
         .then(docs => {
             const response = {
@@ -56,6 +56,7 @@ exports.product_get_all = async (req, res, next) => {
                         price: doc.price,
                         description: doc.description,
                         productImage: doc.productImage,
+                        likes: doc.likes,
                         _id: doc._id,
                         request: {
                             type: 'GET',
@@ -147,3 +148,48 @@ exports.products_update_product = (req, res, next) => {
             });
         });
 };
+
+exports.products_like_product = (req, res, next) => {
+    const id = req.params.productId;
+    Product.findById(id)
+        .then(product => {
+            const isLiked = product.likes.some((id) => id.toString() === req.user._id.toString());
+            if (isLiked) {
+                res.status(400).json({
+                    message: 'This product is already liked!'
+                });
+            } else {
+                product.likes.push(req.user.id);
+                return product.save().then(result => {
+                    res.status(200).json({
+                        message: 'Product is liked!'
+                    });
+                });
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        })
+}
+
+exports.products_unlike_product = (req, res, next) => {
+    const id = req.params.productId;
+    Product.findById(id)
+        .then(product => {
+            product.likes = product.likes.filter((id) => id.toString() !== req.user._id.toString());
+            return product.save().then(result => {
+                res.status(200).json({
+                    message: 'Product is unliked!'
+                });
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+}

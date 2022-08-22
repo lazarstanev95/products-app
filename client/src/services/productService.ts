@@ -9,6 +9,8 @@ export default class ProductService {
     static saveProductByIdService = '/products/';
     static deleteProductByIdService = '/products/';
     static addToCartProducService = '/cart';
+    static likeProductService = '/products/like/';
+    static unlikeProductService = '/products/unlike/';
 
     static getProducts(payload: any): Promise<any> {
         return DataService.post(this.productsService, payload).then((response: any) => {
@@ -51,6 +53,18 @@ export default class ProductService {
 
     static addToCartProduct(payload: any): Promise<any> {
         return DataService.post(this.addToCartProducService, payload).then((response: any) => {
+            return response;
+        })
+    }
+
+    static likeProduct(id: any): Promise<any> {
+        return DataService.patch(this.likeProductService + id).then((response: any) => {
+            return response;
+        })
+    }
+
+    static unlikeProduct(id: any): Promise<any> {
+        return DataService.patch(this.unlikeProductService + id).then((response: any) => {
             return response;
         })
     }
