@@ -20,7 +20,11 @@ const userSchema = mongoose.Schema({
                 quantity: { type: Number, required: true }
             }
         ]
-    }
+    },
+    likedProducts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product'
+    }]
 });
 
 userSchema.methods.addToCart = function (product) {

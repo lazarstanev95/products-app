@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { count } = require('../models/product');
 
 const Product = require('../models/product');
+const User = require('../models/user');
 
 exports.product_create_product = (req, res, next) => {
     console.log('req file..', req.file);
@@ -43,7 +44,7 @@ exports.product_get_all = async (req, res, next) => {
     const docs = req.body.docs || 1000;
     let query = {};
     Product.find(query)
-        .skip((page -1) * docs)
+        .skip((page - 1) * docs)
         .limit(docs)
         .select('name price description _id productImage likes')
         .exec()
@@ -100,7 +101,7 @@ exports.products_get_product = (req, res, next) => {
         .exec()
         .then(doc => {
             console.log('From database', doc);
-            if(doc) {
+            if (doc) {
                 res.status(200).json({
                     product: doc,
                     request: {
@@ -159,6 +160,11 @@ exports.products_like_product = (req, res, next) => {
                     message: 'This product is already liked!'
                 });
             } else {
+                User.findById(req.user._id)
+                    .then(user => {
+                        user.likedProducts.push(id);
+                        return user.save();
+                    });
                 product.likes.push(req.user.id);
                 return product.save().then(result => {
                     res.status(200).json({
@@ -179,6 +185,11 @@ exports.products_unlike_product = (req, res, next) => {
     const id = req.params.productId;
     Product.findById(id)
         .then(product => {
+            User.findById(req.user._id)
+                .then(user => {
+                    user.likedProducts = user.likedProducts.filter((productId) => productId.toString() !== id);
+                    return user.save();
+                });
             product.likes = product.likes.filter((id) => id.toString() !== req.user._id.toString());
             return product.save().then(result => {
                 res.status(200).json({

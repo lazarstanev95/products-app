@@ -5,6 +5,7 @@ const User = require('../models/user');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
+const Product = require("../models/product");
 
 const transporter = nodemailer.createTransport(sendgridTransport({
     auth: {
@@ -278,6 +279,32 @@ exports.post_new_password = (req, res, next) => {
     .catch(err => {
         console.log(err);
     })
+};
+
+exports.get_liked_products = (req, res, next) => {
+    //Product.find({ likes: req.user._id})
+    Product.find({
+        '_id': { $in: req.user.likedProducts }
+    })
+        .then(products => {
+            const response = {
+                products: products.map(doc => {
+                    return {
+                        name: doc.name,
+                        price: doc.price,
+                        description: doc.description,
+                        productImage: doc.productImage,
+                        likes: doc.likes,
+                        _id: doc._id,
+                        request: {
+                            type: 'GET',
+                            url: 'http://localhost:4000/user/users/likedProducts'
+                        }
+                    }
+                })
+            }
+            res.status(200).json(response);
+        })
 };
 
 /* exports.me = (req, res) => {
