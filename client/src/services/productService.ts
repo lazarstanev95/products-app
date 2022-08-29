@@ -5,6 +5,7 @@ export default class ProductService {
     static productsService = '/products/products';
     static addProductService = '/products';
     static uploadImageService = '/image/uploadmulter';
+    static uploadImageToStoreService = '/image/uploadImage';
     static getProductByIdService = '/products/';
     static saveProductByIdService = '/products/';
     static deleteProductByIdService = '/products/';
@@ -27,6 +28,12 @@ export default class ProductService {
         })
     }
 
+    static uploadImageToStore(imageFormObject: any, options: any): Promise<any> {
+        return DataService.post(this.uploadImageToStoreService, imageFormObject, options).then((response: any) => {
+            return response;
+        })
+    }
+
     static addProduct(product: any): Promise<any> {
         return DataService.post(this.addProductService, product).then((response: any) => {
             return response;
@@ -35,7 +42,9 @@ export default class ProductService {
 
     static getProductById(id: any): Promise<any> {
         return DataService.get(this.getProductByIdService + id).then((response: any) => {
-            return response;
+            return {
+                data: new ProductEntity(response?.data?.product)
+            };
         })
     }
 

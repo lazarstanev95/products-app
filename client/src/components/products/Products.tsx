@@ -142,7 +142,7 @@ export default function Products() {
                 >
                     {
                         products?.map((item: any, index: number) => {
-                            const isLiked = item.likes.some((id: any) => id === currentUser.id);
+                            const isLiked =  currentUser && item.likes.some((id: any) => id === currentUser.id);
                             return (
                                 <ProductItem 
                                     products={item}

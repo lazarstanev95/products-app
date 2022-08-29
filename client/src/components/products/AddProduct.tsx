@@ -20,7 +20,7 @@ export default function AddProduct(props: any) {
         if (props.match.params.id) {
             ProductService.getProductById(props.match.params.id)
                 .then((response: any) => {
-                    setProduct(response.data.product);
+                    setProduct(response.data);
                     setIsEdit(true);
                 })
                 .catch((err: any) => {
@@ -40,6 +40,7 @@ export default function AddProduct(props: any) {
     const handleSave = (event: any) => {
         event.preventDefault();
         if (isEdit) {
+            product.productImage = product.productImage.replace("/image/getImage/", "");
             ProductService.saveProductById(props.match.params.id, product)
                 .then((response: any) => {
                     dispatch(openSnackbar({
@@ -68,41 +69,39 @@ export default function AddProduct(props: any) {
         }
     }
 
-    const uploadImage = (event: any, method: string) => {
+    const uploadImageToStore = (event: any) => {
         event.preventDefault();
-        if (method === 'multer') {
-            let file = event.target.files && event.target.files[0];
-            if (!file) {
-                return;
-            }
-            let imageFormObj = new FormData();
-
-            imageFormObj.append("imageName", "multer-image-" + Date.now());
-            imageFormObj.append("imageData", file);
-
-            const options = {
-                onUploadProgress: (progressEvent: any) => {
-                    const { loaded, total } = progressEvent;
-                    let percent = Math.floor((loaded * 100) / total);
-                    console.log(`${loaded}kb of ${total}kb | ${percent}%`)
-                }
-            }
-
-            setMulterImage(URL.createObjectURL(file));
-
-            ProductService.uploadImage(imageFormObj, options)
-                .then((response: any) => {
-                    if (response.data.success) {
-                        setProduct(prev => ({ ...prev, productImage: response.data.document.imageData }));
-                        dispatch(openSnackbar({
-                            message: '"Image has been successfully uploaded using multer"',
-                            severity: 'success'
-                        }))
-                    }
-                }).catch((err: any) => {
-                    console.log('err', err)
-                })
+        let file = event.target.files && event.target.files[0];
+        if (!file) {
+            return;
         }
+        let imageFormObj = new FormData();
+
+        imageFormObj.append("imageName", "multer-image-" + Date.now());
+        imageFormObj.append("imageData", file);
+
+        const options = {
+            onUploadProgress: (progressEvent: any) => {
+                const { loaded, total } = progressEvent;
+                let percent = Math.floor((loaded * 100) / total);
+                console.log(`${loaded}kb of ${total}kb | ${percent}%`)
+            }
+        }
+
+        setMulterImage(URL.createObjectURL(file));
+
+        ProductService.uploadImageToStore(imageFormObj, options)
+            .then((response: any) => {
+                if (response.data.success) {
+                    setProduct(prev => ({ ...prev, productImage: isEdit ? `/image/getImage/${response.data.document.Key}` : response.data.document.Key }));
+                    dispatch(openSnackbar({
+                        message: 'Image has been successfully uploaded',
+                        severity: 'success'
+                    }))
+                }
+            }).catch((err: any) => {
+                console.log('err', err)
+            })
     }
 
     return (
@@ -142,8 +141,8 @@ export default function AddProduct(props: any) {
                             fullWidth
                         />
                         <br />
-                        <input type="file" name="productImage" onChange={(e) => uploadImage(e, 'multer')} />
-                        <img src={isEdit ? "/" + product.productImage : multerImage} alt="uploaded" width="400" height="400" />
+                        <input type="file" name="productImage" onChange={(e) => uploadImageToStore(e)} />
+                        <img src={isEdit ? product.productImage : multerImage} alt="uploaded" width="400" height="400" />
                         <Button
                             type="submit"
                             fullWidth

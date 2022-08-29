@@ -11,7 +11,11 @@ export default class ProductEntity {
         this.name = data.name;
         this.description = data.description;
         this.price = data.price;
-        this.productImage = data.productImage;
+        this.productImage = this.getProductUrl(data.productImage);
         this.likes = data.likes;
+    }
+
+    getProductUrl(productImage: string) {
+        return `/image/getImage/${productImage}`
     }
 }
