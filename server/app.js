@@ -35,9 +35,9 @@ app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: false}));
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('clients/build'));
+    app.use(express.static('client/build'));
     app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, 'clients', 'build', 'index.html'));
+        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
     })
 }
 
