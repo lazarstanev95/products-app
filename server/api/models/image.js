@@ -13,6 +13,10 @@ var ImageSchema = mongoose.Schema({
     imageData: {
         type: String,
         required: true
+    },
+    cloudinaryId: {
+        type: String,
+        required: true
     }
 });
 

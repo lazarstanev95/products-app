@@ -16,6 +16,6 @@ export default class ProductEntity {
     }
 
     getProductUrl(productImage: string) {
-        return `/image/getImage/${productImage}`
+        return productImage;
     }
 }
