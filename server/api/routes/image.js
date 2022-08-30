@@ -36,6 +36,7 @@ router.route("/uploadbase")
             .catch((err) => next(err));
     });
 
+router.get('/getImage/:key', imageController.getImageFromStorage);
 
 router.post('/uploadImage', checkAuth, upload.single('imageData'), imageController.uploadStorageImage)
 

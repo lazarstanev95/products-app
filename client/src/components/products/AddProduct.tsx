@@ -40,6 +40,7 @@ export default function AddProduct(props: any) {
     const handleSave = (event: any) => {
         event.preventDefault();
         if (isEdit) {
+            product.productImage = product.productImage.replace("/image/getImage/", "");
             ProductService.saveProductById(props.match.params.id, product)
                 .then((response: any) => {
                     dispatch(openSnackbar({
@@ -92,7 +93,7 @@ export default function AddProduct(props: any) {
         ProductService.uploadImageToStore(imageFormObj, options)
             .then((response: any) => {
                 if (response.data.success) {
-                    setProduct(prev => ({ ...prev, productImage: response.data.document.secure_url }));
+                    setProduct(prev => ({ ...prev, productImage:  isEdit ? `/image/getImage/${response.data.document.Key}` : response.data.document.Key }));
                     dispatch(openSnackbar({
                         message: 'Image has been successfully uploaded',
                         severity: 'success'

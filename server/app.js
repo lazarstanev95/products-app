@@ -34,12 +34,6 @@ app.use(cors());
 app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: false}));
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('./client/build'));
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
-    })
-}
 
 app.use(
     session({
@@ -67,6 +61,13 @@ app.use('/products', productRoutes);
 app.use('/user', userRoutes);
 app.use('/cart', shopRoutes);
 app.use('/image/', imageRoutes);
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('./client/build'));
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
+    })
+}
 
 app.use((req, res, next) => {
     const error = new Error('Not found');
