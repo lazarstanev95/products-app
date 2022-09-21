@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+    frontend:
+        image: products-app
+        ports:
+            - "${port}:${port}"
+        container_name: products-app
+        env_file:
+            - .env
+        volumes:
+            - frontend-logs:/app/logs
+        restart: unless-stopped
+        expose:
+            - ${port}
+volumes:
+    frontend-logs:
