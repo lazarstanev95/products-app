@@ -34,7 +34,7 @@ export default function ProductItem(props: any) {
                         {props.products.name}
                     </Typography>
                     <Typography>
-                        {props.products.description}
+                        {`description - ${props.products.description}`}
                     </Typography>
                     <Typography>
                         {props.products.price}
