@@ -59,7 +59,7 @@ export default function Navbar() {
                     </IconButton>
                     <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center'}}>
                         <Typography variant="h6" >
-                            Theatre Project
+                            E-commerce Project
                         </Typography>
                         <div>
                             <div ref={iconRef} onClick={handleOpenMenu}>
