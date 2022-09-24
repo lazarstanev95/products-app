@@ -12,3 +12,12 @@
     margin-right: 200px;
     flex-wrap: wrap;
 }
+
+@media screen and (max-width: 767px) {
+    .contentWrap {
+        display: flex;
+        margin-left: 15px;
+        margin-right: 35px;
+        flex-wrap: wrap;
+    }
+}

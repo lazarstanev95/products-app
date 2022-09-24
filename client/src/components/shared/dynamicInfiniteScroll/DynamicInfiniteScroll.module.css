@@ -26,3 +26,10 @@
     align-items: center;
     z-index: 1;
 }
+
+@media screen and (max-width: 767px){
+    .thumb {
+        position: unset !important;
+        background: none;
+    }
+}
