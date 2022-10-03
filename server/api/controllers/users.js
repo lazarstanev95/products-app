@@ -222,11 +222,11 @@ exports.post_user_reset_password = (req, res, next) => {
             .then(() => {
                 transporter.sendMail({
                     to: req.body.email,
-                    from: 'shop@node-complete.com',
+                    from: process.env.SEND_GRID_EMAIL,
                     subject: 'Password reset',
                     html: `
                         <p>You requested a password reset</p>
-                        <p>Click this <a href="http://localhost:3000/new-password/${token}">link</a> to set a new password.</p>
+                        <p>Click this <a href="${process.env.BASE_URL}new-password/${token}">link</a> to set a new password.</p>
                     `
                 });
             })

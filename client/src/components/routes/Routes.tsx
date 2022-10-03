@@ -10,6 +10,7 @@ import { selectIsAuthenticated } from '../users/UsersSlice';
 import EditUser from '../users/EditUser';
 import Products from '../products/Products';
 import AddProduct from '../products/AddProduct';
+import NewPassword from '../users/NewPassword';
 
 export default function Routes() {
     const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -23,6 +24,7 @@ export default function Routes() {
             <PrivateRoute path='/users' /* isAuthenticated={true} */ component={Users}/>
             <PrivateRoute path='/editUser/:id' /* isAuthenticated={true} */ component={EditUser}/>
             <Route path='/products' component={Products}/>
+            <Route path='/new-password/:token' component={NewPassword}/>
         </Switch>
     )
 }

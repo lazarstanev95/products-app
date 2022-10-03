@@ -6,6 +6,7 @@ export default class UserService {
     static registerService = '/user/signup';
     static usersService = '/user/users';
     static usersByIdService = '/user/users/';
+    static userForgotPasswordService = '/user/users/forgotPassword';
 
     static loginUser(payload: any): Promise<any> {
         return DataService.post(this.loginService, payload).then((response: any) => {
@@ -40,6 +41,12 @@ export default class UserService {
 
     static saveUserById(id: any, payload: any): Promise<any> {
         return DataService.patch(this.usersByIdService + id, payload).then((response: any) => {
+            return response.data;
+        })
+    }
+
+    static forgotPassword(payload: any): Promise<any> {
+        return DataService.post(this.userForgotPasswordService, payload).then((response: any) => {
             return response.data;
         })
     }

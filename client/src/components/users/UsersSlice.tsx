@@ -174,6 +174,18 @@ export const saveUserById = (id: any, payload: any, history: any): AppThunk => a
     }
 }
 
+export const forgotPassword = (payload: any): AppThunk => async (dispatch) => {
+    try {
+        const response = await userService.forgotPassword(payload);
+        dispatch(openSnackbar({
+            message: response.message,
+            severity: 'success'
+        }))
+    } catch (error) {
+        console.log('error', error);
+    }
+}
+
 export const selectCurrentUser = (state: RootState) => state.users.currentUser;
 export const selectIsAuthenticated = (state: RootState) => state.users.isAuthenticated;
 export const selectUsers = (state: RootState) => state.users.users;

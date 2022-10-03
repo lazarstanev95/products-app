@@ -17,7 +17,9 @@ ENV PORT="4000" \
     S3_BUCKET="" \
     AWS_BUCKET_REGION="" \
     AWS_ACCESS_KEY_ID="" \
-    AWS_SECRET_ACCESS_KEY=""
+    AWS_SECRET_ACCESS_KEY="" \
+    BASE_URL="" \
+    SEND_GRID_EMAIL=""
 
 EXPOSE 4000
 CMD ["node", "./server/server.js"]

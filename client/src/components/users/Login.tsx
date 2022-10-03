@@ -6,15 +6,17 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { loginUser } from './UsersSlice';
+import { loginUser, forgotPassword } from './UsersSlice';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import styles from './Login.module.css'
+import ForgotPassword from './ForgotPassword';
 
 export default function Login() {
     const dispatch = useDispatch();
     const history = useHistory();
     const [user, setUser] = useState({ email: '', password: ''});
+    const [open, setOpen] = useState(false);
     let [errorEmail, setErrorEmail] = useState('');
     let [errorPassword, setErrorPassword] = useState('');
 
@@ -54,7 +56,20 @@ export default function Login() {
         history.push('/register')
     }
 
+    const handleClickOpen = () => {
+        setOpen(true);
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+    }
+
+    const handleConfirm = ({email}: any) => {
+        dispatch(forgotPassword({email}));
+    }
+
     return (
+        <>
         <Container component="main" maxWidth="xs">
 
                 <div className={styles.paper}>
@@ -105,7 +120,7 @@ export default function Login() {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link /* onClick={this.handleClickOpen} */ variant="body2">
+                                <Link onClick={handleClickOpen} variant="body2">
                                     Forgot password?
                                 </Link>
                             </Grid>
@@ -118,5 +133,11 @@ export default function Login() {
                     </form>
                 </div>
             </Container>
+            <ForgotPassword 
+                open={open}
+                onClose={handleClose}
+                onConfirm={handleConfirm}
+            />
+        </>
     )
 }
