@@ -2,6 +2,24 @@ const mongoose = require("mongoose");
 const User = require('../models/user');
 const Product = require('../models/product');
 
+exports.getCart = (req, res, next) => {
+    req.user
+        .populate('cart.items.productId')
+        .execPopulate()
+        .then(user => {
+            const products = user.cart.items;
+            res.status(200).json({
+                products
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+}
+
 exports.postCart = (req, res, next) => {
     const prodId = req.body.productId;
     const user = new User({
@@ -31,4 +49,38 @@ exports.postCart = (req, res, next) => {
             });
         });
 };
+
+exports.removeProductQuantity = (req, res, next) => {
+    const prodId = req.body.productId;
+    Product.findById(prodId)
+        .then(product => {
+            return req.user.removeProductQuantity(product);
+        })
+        .then(result => {
+            res.status(200).json({
+                message: "Cart updated",
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err.message
+            });
+        });
+}
+
+exports.postCartDeleteProduct = (req, res, next) => {
+    const prodId = req.body.productId;
+    req.user
+    .removeFromCart(prodId)
+    .then(result => {
+        res.status(200).json({
+            message: "Product is removed from cart",
+        });
+    })
+    .catch(err => {
+        res.status(500).json({
+            error: err
+        });
+    });
+}
 
