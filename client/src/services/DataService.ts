@@ -3,6 +3,16 @@ import axios from 'axios';
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
+axios.interceptors.request.use((config) => {
+    config.headers['Accept'] = 'application/json';
+    config.headers['Content-Type'] = 'application/json';
+    config.headers['Authorization'] = localStorage.jwtToken;
+
+    return config;
+}, function(error) {
+    return Promise.reject(error);
+});
+
 export const setAuthToken = (token: any) => {
     if(token) {
         axios.defaults.headers.common['Authorization'] = token;
