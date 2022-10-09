@@ -2,17 +2,31 @@ import { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styles from './Cart.module.css';
 import CartItem from './CartItem';
-import { getCart, selectCart } from './CartSlice';
+import { addToCart, deleteProductFromCart, getCart, removeFromCart, selectCart, selectCartLoading } from './CartSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import DynamicLoader from '../shared/dynamicLoader/DynamicLoader';
 
 export default function Cart() {
 
     const dispatch = useDispatch();
     const cart = useSelector(selectCart);
+    const isLoading = useSelector(selectCartLoading);
 
     useEffect(() => {
         dispatch(getCart());
     }, [])
+
+    const handleAddToCart = (productId: any) => {
+        dispatch(addToCart(productId));
+    }
+
+    const handleRemoveFromCart = (productId: any) => {
+        dispatch(removeFromCart(productId));
+    }
+
+    const handleDeleteFromCart = (productId: any) => {
+        dispatch(deleteProductFromCart(productId));
+    }
 
     const renderEmptyCart = () => {
         if (!cart.length) {
@@ -50,19 +64,38 @@ export default function Cart() {
         )
     }
 
+    const renderCartItems = () => {
+        if (isLoading) {
+            return (
+                <div className={styles.loaderWrap}>
+                    <DynamicLoader />
+                </div>
+            )
+        }
+        if (cart.length !== 0) {
+            return cart?.map((item: any, index: number) => {
+                return (
+                    <CartItem
+                        cart={item}
+                        onAddToCart={handleAddToCart}
+                        onRemoveFromCart={handleRemoveFromCart}
+                        onDeleteFromCart={handleDeleteFromCart}
+                    />
+                )
+            })
+        }
+
+        return (
+            renderEmptyCart()
+        )
+    }
+
     return (
         <div className={styles.wrapper}>
             <h1>Shopping Cart</h1>
             <div className={styles.subwrapper}>
                 <div>
-                    {renderEmptyCart()}
-                    {
-                        cart?.map((item: any, index: number) => {
-                            return (
-                                <CartItem cart={item}/>
-                            )
-                        })
-                    }
+                    {renderCartItems()}
                 </div>
                 {renderTotalSection()}
             </div>

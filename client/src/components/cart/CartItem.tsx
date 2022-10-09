@@ -13,11 +13,13 @@ export default function CartItem(props: any) {
             </div>
             <div className={styles.column}>
                 <IconButton
+                    onClick={() => props.onRemoveFromCart(props.cart.productId._id)} 
                 >
                     <RemoveCircleIcon />
                 </IconButton>
                 <span>{props.cart.quantity}</span>
                 <IconButton
+                    onClick={() => props.onAddToCart(props.cart.productId._id)} 
                 >
                     <AddCircleIcon />
                 </IconButton>
@@ -27,6 +29,7 @@ export default function CartItem(props: any) {
             </div>
             <div className={styles.column}>
                 <IconButton
+                    onClick={() => props.onDeleteFromCart(props.cart.productId._id)} 
                 >
                     <DeleteIcon />
                 </IconButton>
