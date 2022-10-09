@@ -1,0 +1,29 @@
+.cartItemWrap {
+    width: 850px;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.imageWrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image {
+    height: 80px;
+    border: 1px solid rgba(0,0,0,.125);
+    padding: 2px;
+}
+
+.cartItemTitle {
+    margin-left: 10px;
+}
+
+.column {
+    display: flex;
+    align-items: center;
+}

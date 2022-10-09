@@ -62,7 +62,7 @@ export default function Navbar() {
                             E-commerce Project
                         </Typography>
                         <div style={{display: 'flex', alignItems: 'center'}}>
-                            <Link to='/cart' style={{color: 'white', textDecoration: 'none'}}>Cart</Link>
+                            <Link to='/cart' className='navbarLink' style={{color: 'white', textDecoration: 'none'}}>Cart</Link>
                             <div ref={iconRef} onClick={handleOpenMenu}>
                                 <IconButton
                                     aria-label="Account of current user"
