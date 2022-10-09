@@ -3,7 +3,7 @@ import axios from 'axios';
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
-axios.interceptors.request.use((config) => {
+axios.interceptors.request.use(async (config) => {
     config.headers['Accept'] = 'application/json';
     config.headers['Content-Type'] = 'application/json';
     config.headers['Authorization'] = localStorage.jwtToken;
