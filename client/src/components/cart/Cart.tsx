@@ -2,7 +2,16 @@ import { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styles from './Cart.module.css';
 import CartItem from './CartItem';
-import { addToCart, deleteProductFromCart, getCart, removeFromCart, selectCart, selectCartLoading } from './CartSlice';
+import { 
+    addToCart, 
+    deleteProductFromCart, 
+    getCart, 
+    removeFromCart, 
+    selectCart, 
+    selectCartLoading, 
+    selectCartTotalCount, 
+    selectCartTotalPrice 
+} from './CartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import DynamicLoader from '../shared/dynamicLoader/DynamicLoader';
 
@@ -11,6 +20,8 @@ export default function Cart() {
     const dispatch = useDispatch();
     const cart = useSelector(selectCart);
     const isLoading = useSelector(selectCartLoading);
+    const totalCount = useSelector(selectCartTotalCount);
+    const totalPrice = useSelector(selectCartTotalPrice);
 
     useEffect(() => {
         dispatch(getCart());
@@ -48,7 +59,7 @@ export default function Cart() {
                     <div className={styles.cardBody}>
                         <div className={`${styles.listGroup} ${styles.listGroupFlush}`}>
                             <div className={styles.listGroupItem}>
-                                <h3>Subtotal ({cart.reduce((a: any, c: any) => a + c.quantity, 0)} items) : ${cart.reduce((a: any, c: any) => a + c.productId.price * c.quantity, 0)}</h3>
+                                <h3>Subtotal ({totalCount} items) : ${totalPrice}</h3>
                             </div>
                             <div className={styles.listGroupItem}>
                                 <div>

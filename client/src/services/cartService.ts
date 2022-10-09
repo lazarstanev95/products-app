@@ -1,3 +1,4 @@
+import CartEntity from "../entities/Cart.entity";
 import DataService from "./DataService";
 
 export default class CartService {
@@ -9,8 +10,9 @@ export default class CartService {
     static getCart(): Promise<any> {
         return DataService.get(this.getCartService).then((response: any) => {
             return {
-                count: response?.data?.totalCount,
-                data: response?.data?.products || []
+                data: response?.data?.products?.map((item: any) => new CartEntity(item)) || [],
+                totalCount: response?.data?.totalCount,
+                totalPrice: response?.data?.totalPrice,
             }
         })
     }

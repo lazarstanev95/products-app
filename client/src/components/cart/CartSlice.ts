@@ -5,6 +5,8 @@ import { openSnackbar } from '../shared/dynamicSnackbar/DynamicSnackbarSlice';
 
 const cartInitialState: any = {
     cart: [],
+    cartTotalCount: 0,
+    cartTotalPrice: 0,
     cartLoading: false
 }
 
@@ -25,10 +27,14 @@ const cart = createSlice({
         getCartSuccess(state, { payload }: PayloadAction<any>) {
             state.cartLoading = false;
             state.cart = payload.data;
+            state.cartTotalCount = payload.totalCount;
+            state.cartTotalPrice = payload.totalPrice;
         },
         getCartFailed: loadingCartFailed,
         updateCart(state, { payload }: PayloadAction<any>) {
             state.cart = payload.data;
+            state.cartTotalCount = payload.totalCount;
+            state.cartTotalPrice = payload.totalPrice;
         }
     }
 });
@@ -61,7 +67,9 @@ export const addToCart = (productId: any): AppThunk => async (dispatch, getState
         const response = await CartService.addToCartProduct(data);
         const updatedCart = await CartService.getCart();
         const payloadNew = {
-            data: [...updatedCart.data]
+            data: [...updatedCart.data],
+            totalCount: updatedCart.totalCount,
+            totalPrice: updatedCart.totalPrice
         }
         dispatch(updateCart(payloadNew));
         dispatch(openSnackbar({
@@ -86,7 +94,9 @@ export const removeFromCart = (productId: any): AppThunk => async (dispatch, get
         const response = await CartService.removeFromCartProduct(data);
         const updatedCart = await CartService.getCart();
         const payloadNew = {
-            data: [...updatedCart.data]
+            data: [...updatedCart.data],
+            totalCount: updatedCart.totalCount,
+            totalPrice: updatedCart.totalPrice
         }
         dispatch(updateCart(payloadNew));
         dispatch(openSnackbar({
@@ -111,7 +121,9 @@ export const deleteProductFromCart = (productId: any): AppThunk => async (dispat
         const response = await CartService.deleteProductFromCart(data);
         const updatedCart = await CartService.getCart();
         const payloadNew = {
-            data: [...updatedCart.data]
+            data: [...updatedCart.data],
+            totalCount: updatedCart.totalCount,
+            totalPrice: updatedCart.totalPrice
         }
         dispatch(updateCart(payloadNew));
         dispatch(openSnackbar({
@@ -130,3 +142,5 @@ export const deleteProductFromCart = (productId: any): AppThunk => async (dispat
 
 export const selectCart = (state: RootState) => state.cart.cart;
 export const selectCartLoading = (state: RootState) => state.cart.cartLoading;
+export const selectCartTotalCount = (state: RootState) => state.cart.cartTotalCount;
+export const selectCartTotalPrice = (state: RootState) => state.cart.cartTotalPrice;

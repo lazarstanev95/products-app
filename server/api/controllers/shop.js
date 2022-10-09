@@ -8,8 +8,12 @@ exports.getCart = (req, res, next) => {
         .execPopulate()
         .then(user => {
             const products = user.cart.items;
+            const totalCount = products.reduce((a, c) => a + c.quantity, 0);
+            const totalPrice = products.reduce((a, c) => a + c.productId.price * c.quantity, 0);
             res.status(200).json({
-                products
+                products,
+                totalCount,
+                totalPrice
             });
         })
         .catch(err => {

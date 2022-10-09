@@ -8,28 +8,28 @@ export default function CartItem(props: any) {
     return (
         <div className={styles.cartItemWrap}>
             <div className={styles.imageWrap}>
-                <img src={`/image/getImage/${props.cart.productId.productImage}`} alt={props.cart.productId.name} className={styles.image} />
-                <a className={styles.cartItemTitle} /* href="" */>{props.cart.productId.name}</a>
+                <img src={props.cart.productImage} alt={props.cart.name} className={styles.image} />
+                <a className={styles.cartItemTitle} /* href="" */>{props.cart.name}</a>
             </div>
             <div className={styles.column}>
                 <IconButton
-                    onClick={() => props.onRemoveFromCart(props.cart.productId._id)} 
+                    onClick={() => props.onRemoveFromCart(props.cart.id)} 
                 >
                     <RemoveCircleIcon />
                 </IconButton>
                 <span>{props.cart.quantity}</span>
                 <IconButton
-                    onClick={() => props.onAddToCart(props.cart.productId._id)} 
+                    onClick={() => props.onAddToCart(props.cart.id)} 
                 >
                     <AddCircleIcon />
                 </IconButton>
             </div>
             <div className={styles.column}>
-                ${props.cart.productId.price}
+                ${props.cart.price}
             </div>
             <div className={styles.column}>
                 <IconButton
-                    onClick={() => props.onDeleteFromCart(props.cart.productId._id)} 
+                    onClick={() => props.onDeleteFromCart(props.cart.id)} 
                 >
                     <DeleteIcon />
                 </IconButton>
