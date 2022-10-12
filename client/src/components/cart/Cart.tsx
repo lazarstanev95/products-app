@@ -15,6 +15,7 @@ import {
 } from './CartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import DynamicLoader from '../shared/dynamicLoader/DynamicLoader';
+import { openConfirmPopup } from '../shared/dynamicConfirmPopup/DynamicConfirmPopupSlice';
 
 export default function Cart() {
 
@@ -41,7 +42,13 @@ export default function Cart() {
     }
 
     const handleDeleteFromCart = (productId: any) => {
-        dispatch(deleteProductFromCart(productId));
+        dispatch(openConfirmPopup({
+            message: 'Are you sure you want to delete this product from cart?',
+            url: '',
+            callback: () => {
+                dispatch(deleteProductFromCart(productId));
+            }
+        }));
     }
 
     const renderEmptyCart = () => {
