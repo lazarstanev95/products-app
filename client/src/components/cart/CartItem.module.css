@@ -1,10 +1,12 @@
 .cartItemWrap {
-    width: 850px;
+    width: 100%;
     background-color: #fff;
     border: 1px solid rgba(0,0,0,.125);
     padding: 10px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
+    margin-bottom: 10px;
 }
 
 .imageWrap {
@@ -21,6 +23,13 @@
 
 .cartItemTitle {
     margin-left: 10px;
+}
+
+@media screen and (max-width: 767px) {
+    .cartItemTitle {
+        composes: cartItemTitle;
+        width: 200px;
+    }
 }
 
 .column {

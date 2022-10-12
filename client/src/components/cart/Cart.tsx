@@ -7,6 +7,7 @@ import {
     deleteProductFromCart, 
     getCart, 
     removeFromCart, 
+    resetCart, 
     selectCart, 
     selectCartLoading, 
     selectCartTotalCount, 
@@ -25,6 +26,10 @@ export default function Cart() {
 
     useEffect(() => {
         dispatch(getCart());
+
+        return () => {
+            dispatch(resetCart());
+        }
     }, [])
 
     const handleAddToCart = (productId: any) => {
@@ -105,7 +110,7 @@ export default function Cart() {
         <div className={styles.wrapper}>
             <h1>Shopping Cart</h1>
             <div className={styles.subwrapper}>
-                <div>
+                <div className={styles.cartItemsWrap}>
                     {renderCartItems()}
                 </div>
                 {renderTotalSection()}

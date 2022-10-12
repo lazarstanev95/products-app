@@ -35,7 +35,10 @@ const cart = createSlice({
             state.cart = payload.data;
             state.cartTotalCount = payload.totalCount;
             state.cartTotalPrice = payload.totalPrice;
-        }
+        },
+        resetCart(state, { payload }: PayloadAction<string | undefined>) {
+            state.cart = [];
+        },
     }
 });
 
@@ -43,7 +46,8 @@ export const {
     getCartStart,
     getCartSuccess,
     getCartFailed,
-    updateCart
+    updateCart,
+    resetCart
 } = cart.actions;
 
 export default cart.reducer;

@@ -113,3 +113,13 @@ h3 {
 .loaderWrap {
     width: 850px;
 }
+
+.cartItemsWrap {
+    width: 850px;
+}
+
+@media screen and (max-width: 767px) {
+    .cartItemsWrap {
+        width: 328px;
+    }
+}
