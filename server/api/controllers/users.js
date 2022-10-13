@@ -6,6 +6,8 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
 const Product = require("../models/product");
+const { logger } = require("../../utils/logger");
+const log = logger({ name: 'Users', filename: 'user.log' })
 
 const transporter = nodemailer.createTransport(sendgridTransport({
     auth: {
@@ -37,14 +39,14 @@ exports.user_signup = (req, res, next) => {
                         });
                         user.save()
                             .then(result => {
-                                console.log(result);
+                                log.info(result);
                                 res.status(201).json({
                                     result,
                                     message: 'User created'
                                 })
                             })
                             .catch(err => {
-                                console.log(err);
+                                log.error(err);
                                 res.status(500).json({
                                     error: err
                                 });
@@ -87,9 +89,9 @@ exports.user_login = (req, res) => {
                                 });
                                 req.session.isLoggedIn = true;
                                 req.session.user = user;
-                                console.log('controller login req...', req);
+                                log.info('controller login req...', req);
                                 return req.session.save(err => {
-                                    console.log('err...', err);
+                                    log.error('err...', err);
                                 });
                             }
                         });
@@ -110,7 +112,7 @@ exports.get_users = async (req, res, next) => {
     const docs = req.body.docs || 1000;
     let query = {};
     if (searchString) {
-        query.$text = {$search: searchString};
+        query.$text = { $search: searchString };
     }
     User.find(query)
         .skip((page - 1) * docs)
@@ -138,7 +140,7 @@ exports.get_users = async (req, res, next) => {
             res.status(200).json(response);
         })
         .catch(err => {
-            console.log(err);
+            log.error(err);
             res.status(500).json({
                 error: err
             });
@@ -151,7 +153,7 @@ exports.get_user = (req, res, next) => {
         .select('_id name lastName email isAdmin')
         .exec()
         .then(doc => {
-            if(doc) {
+            if (doc) {
                 res.status(200).json({
                     user: doc,
                     request: {
@@ -165,7 +167,7 @@ exports.get_user = (req, res, next) => {
             }
         })
         .catch(err => {
-            console.log(err);
+            log.error(err);
             res.status(500).json({ error: err });
         });
 };
@@ -190,7 +192,7 @@ exports.update_user = (req, res, next) => {
             })
         })
         .catch(err => {
-            console.log(err);
+            log.error(err);
             res.status(500).json({
                 error: err
             });
@@ -200,13 +202,13 @@ exports.update_user = (req, res, next) => {
 exports.post_user_reset_password = (req, res, next) => {
     crypto.randomBytes(32, (err, buffer) => {
         if (err) {
-            console.log(err);
+            log.error(err);
             return;
         }
         const token = buffer.toString('hex');
         User.findOne({ email: req.body.email })
             .then(user => {
-                if(!user){
+                if (!user) {
                     return res.status(404).json({
                         message: 'User not found'
                     });
@@ -231,7 +233,7 @@ exports.post_user_reset_password = (req, res, next) => {
                 });
             })
             .catch(err => {
-                console.log(err)
+                log.error(err)
             });
     })
 };
@@ -246,7 +248,7 @@ exports.get_new_password = (req, res, next) => {
             });
         })
         .catch(err => {
-            console.log(err);
+            log.error(err);
         });
 };
 
@@ -258,27 +260,27 @@ exports.post_new_password = (req, res, next) => {
 
     User.findOne({
         resetToken: passwordToken,
-        resetTokenExpiration: {$gt: Date.now()},
+        resetTokenExpiration: { $gt: Date.now() },
         _id: userId
     })
-    .then(user => {
-        resetUser = user;
-        return bcrypt.hash(newPassword, 12);
-    })
-    .then(hashedPassword => {
-        resetUser.password = hashedPassword;
-        resetUser.resetToken = undefined;
-        resetUser.resetTokenExpiration = undefined;
-        return resetUser.save();
-    })
-    .then(result => {
-        res.status(200).json({
-            message: 'Password is updated'
+        .then(user => {
+            resetUser = user;
+            return bcrypt.hash(newPassword, 12);
         })
-    })
-    .catch(err => {
-        console.log(err);
-    })
+        .then(hashedPassword => {
+            resetUser.password = hashedPassword;
+            resetUser.resetToken = undefined;
+            resetUser.resetTokenExpiration = undefined;
+            return resetUser.save();
+        })
+        .then(result => {
+            res.status(200).json({
+                message: 'Password is updated'
+            })
+        })
+        .catch(err => {
+            log.error(err);
+        })
 };
 
 exports.get_liked_products = (req, res, next) => {

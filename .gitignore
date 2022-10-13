@@ -5,3 +5,4 @@ uploads
 upgrade.bat
 server/upgrade
 backup
+*.log

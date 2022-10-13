@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const User = require('../models/user');
 const Product = require('../models/product');
+const { logger } = require("../../utils/logger");
+const log = logger({ name: 'Shop', filename: 'shop.log' })
 
 exports.getCart = (req, res, next) => {
     req.user
@@ -17,7 +19,7 @@ exports.getCart = (req, res, next) => {
             });
         })
         .catch(err => {
-            console.log(err);
+            log.error(err);
             res.status(500).json({
                 error: err
             });
@@ -47,7 +49,7 @@ exports.postCart = (req, res, next) => {
             });
         })
         .catch(err => {
-            console.log(err);
+            log.error(err);
             res.status(500).json({
                 error: err
             });
@@ -75,16 +77,16 @@ exports.removeProductQuantity = (req, res, next) => {
 exports.postCartDeleteProduct = (req, res, next) => {
     const prodId = req.body.productId;
     req.user
-    .removeFromCart(prodId)
-    .then(result => {
-        res.status(200).json({
-            message: "Product is removed from cart",
+        .removeFromCart(prodId)
+        .then(result => {
+            res.status(200).json({
+                message: "Product is removed from cart",
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err
+            });
         });
-    })
-    .catch(err => {
-        res.status(500).json({
-            error: err
-        });
-    });
 }
 

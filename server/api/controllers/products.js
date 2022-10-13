@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
+const { logger } = require('../../utils/logger');
 const { count } = require('../models/product');
+const log = logger({ name: 'Products', filename: 'products.log' });
 
 const Product = require('../models/product');
 const User = require('../models/user');
 
 exports.product_create_product = (req, res, next) => {
-    console.log('req file..', req.file);
+    log.info('req file..', req.file);
     const product = new Product({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
@@ -30,7 +32,7 @@ exports.product_create_product = (req, res, next) => {
             });
         })
         .catch(err => {
-            console.log(err);
+            log.error(err);
             res.status(500).json({
                 error: err
             })
@@ -39,7 +41,7 @@ exports.product_create_product = (req, res, next) => {
 
 exports.product_get_all = async (req, res, next) => {
     const totalCount = await Product.countDocuments();
-    console.log('totalCount', totalCount);
+    log.info('totalCount', totalCount);
     const page = req.body.page || 1;
     const docs = req.body.docs || 1000;
     let query = {};
@@ -69,7 +71,7 @@ exports.product_get_all = async (req, res, next) => {
             res.status(200).json(response);
         })
         .catch(err => {
-            console.log(err);
+            log.error(err);
             res.status(500).json({
                 error: err
             });
@@ -87,7 +89,7 @@ exports.products_delete_product = (req, res, next) => {
             })
         })
         .catch(err => {
-            console.log(err);
+            log.error(err);
             res.status(500).json({
                 error: err
             });
@@ -100,7 +102,7 @@ exports.products_get_product = (req, res, next) => {
         .select('name description price _id productImage')
         .exec()
         .then(doc => {
-            console.log('From database', doc);
+            log.info('From database', doc);
             if (doc) {
                 res.status(200).json({
                     product: doc,
@@ -115,7 +117,7 @@ exports.products_get_product = (req, res, next) => {
             }
         })
         .catch(err => {
-            console.log(err);
+            log.error(err);
             res.status(500).json({ error: err });
         });
 };
@@ -143,7 +145,7 @@ exports.products_update_product = (req, res, next) => {
             })
         })
         .catch(err => {
-            console.log(err);
+            log.error(err);
             res.status(500).json({
                 error: err
             });
@@ -174,7 +176,7 @@ exports.products_like_product = (req, res, next) => {
             }
         })
         .catch(err => {
-            console.log(err);
+            log.error(err);
             res.status(500).json({
                 error: err
             });
@@ -198,7 +200,7 @@ exports.products_unlike_product = (req, res, next) => {
             });
         })
         .catch(err => {
-            console.log(err);
+            log.error(err);
             res.status(500).json({
                 error: err
             });

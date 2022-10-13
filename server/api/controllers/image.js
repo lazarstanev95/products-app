@@ -4,23 +4,25 @@ const fs = require('fs');
 const util = require('util');
 const unlinkFile = util.promisify(fs.unlink);
 const cloudinary = require('../../utils/cloudinary');
+const { logger } = require('../../utils/logger');
+const log = logger({ name: 'Image', filename: `image.log` });
 
 exports.uploadImage = (req, res, next) => {
-    console.log(req.body);
+    log.info(req.body);
     const newImage = new Image({
         imageName: req.body.imageName,
         imageData: req.file.path.replace(/\\/g, "/")
     });
     newImage.save()
         .then((result) => {
-            console.log(result);
+            log.info(result);
             res.status(200).json({
                 success: true,
                 document: result
             });
         })
         .catch(err => {
-            console.log(err);
+            log.info(err);
             res.status(500).json({
                 error: err
             });
@@ -28,7 +30,7 @@ exports.uploadImage = (req, res, next) => {
 };
 
 exports.getImageFromStorage = (req, res, next) => {
-    console.log(req.params);
+    log.info(req.params);
     const key = req.params.key;
     const readStream = getFileStream(key);
 
@@ -45,14 +47,14 @@ exports.uploadStorageImage = async (req, res, next) => {
             imageName: req.body.imageName,
             imageData: file.path.replace(/\\/g, "/")
         });
-        
+
         await newImage.save();
         res.status(200).json({
             success: true,
             document: result
         });
-        console.log('Image uploaded successfuly');
+        log.info('Image uploaded successfuly');
     } catch (error) {
-        console.log('error', error);
+        log.error('error', error);
     }
 };

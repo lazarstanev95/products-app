@@ -9,12 +9,14 @@ const path = require('path');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const User = require('./api/models/user');
+const { logger } = require('./utils/logger.js');
+const log = logger({ name: 'Main', filename: 'main.log' });
 require('dotenv').config();
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.DB, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }).then(
-    () => {console.log('Database is connected') },
-    err => { console.log('Can not connect to the database'+ err)}
+    () => { log.info('Database is connected') },
+    err => { log.error('Can not connect to the database' + err) }
 );
 
 const store = new MongoDBStore({
@@ -32,8 +34,8 @@ require('./passport.js')(passport);
 
 app.use(cors());
 app.use('/uploads', express.static('uploads'));
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: false}));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
 
 app.use(
     session({
@@ -45,16 +47,16 @@ app.use(
 );
 
 app.use((req, res, next) => {
-    if(!req.session.user){
+    if (!req.session.user) {
         return next();
     }
-    console.log('req session...', req.session)
+    log.info('req session...', req.session)
     User.findById(req.session.user._id)
         .then(user => {
             req.user = user;
             next()
         })
-        .catch(err => console.log(err));
+        .catch(err => log.error(err));
 });
 
 app.use('/products', productRoutes);
