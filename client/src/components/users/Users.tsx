@@ -5,6 +5,7 @@ import { getUsers, selectUsers, selectUsersIsLoading, selectUsersFetched, select
 import UserItem from './UserItem';
 import DynamicInfiniteScroll from '../shared/dynamicInfiniteScroll/DynamicInfiniteScroll';
 import styles from './Users.module.css';
+import DynamicSearch from '../shared/dynamicSearch/DynamicSearch';
 
 export default function Users() {
     let [searchString, setSearchString] = useState('');
@@ -15,8 +16,8 @@ export default function Users() {
     const dispatch = useDispatch();
     const [currentPage, setCurrentPage] = useState(1);
 
-    const handleChange = (event: any) => {
-        setSearchString(event.target.value);
+    const handleChange = (value: any) => {
+        setSearchString(value);
     }
     const data = {
         searchString: searchString,
@@ -45,26 +46,37 @@ export default function Users() {
         }))
     }
 
+    const getSearchUsers = () => {
+        setCurrentPage(1);
+        dispatch(getUsers(data))
+    }
+
+    const handleOnClear = () => {
+        setSearchString('');
+        setCurrentPage(1);
+        dispatch(getUsers({
+            searchString: '',
+            page: 1,
+            docs: DOCS_ON_PAGE,
+        }))
+    }
+
     return (
         <div>
-            <div style={{ textAlign: 'center' }}>
-                    <TextField
-                        name="searchString"
-                        label="Search for user"
-                        placeholder="Search for user"
-                        value={searchString}
-                        onChange={handleChange}
-                        onKeyPress={(e) => {
-                            if (e.key === 'Enter') {
-                                console.log('Enter key pressed');
-                                // write your functionality here
-                                dispatch(getUsers(data))
-                                setCurrentPage(1);
-                            }
-                        }}
-                        margin="normal"
-                    />
-                </div>
+            <div className={styles.searchWrap}>
+                <DynamicSearch
+                    valueProp={searchString}
+                    inputStyles={styles.inputSearch}
+                    iconSearchStyles={styles.searchIcon}
+                    clearOnEnterKey={false}
+                    hasSearchIcon={true}
+                    hasClearIcon={true}
+                    onChange={handleChange}
+                    onEnterKey={getSearchUsers}
+                    placeholder={'Search for user'}
+                    handleOnClear={handleOnClear}
+                />
+            </div>
             <h1 style={{ textAlign: 'center' }}>Users information</h1>
             <div style={{ display: 'flex', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.26)', height: 40, alignItems: 'center', maxWidth: 1000, margin: 'auto', marginTop: 20 }}>
                 <div style={{ marginLeft: 20, width: 200, textAlign: 'center', fontSize: 20, fontWeight: 500 }}>First Name</div>
@@ -72,7 +84,7 @@ export default function Users() {
                 <div style={{ marginLeft: 20, width: 200, textAlign: 'center', fontSize: 20, fontWeight: 500 }}>Email</div>
                 <div style={{ marginLeft: 20, width: 200, textAlign: 'center', fontSize: 20, fontWeight: 500 }}>Is Admin</div>
             </div>
-            <div style={{overflowY: 'auto', height: 450, padding: '0px 20px'}}>
+            <div style={{ overflowY: 'auto', height: 450, padding: '0px 20px' }}>
                 <DynamicInfiniteScroll
                     hideHorizontalTrack={true}
                     autoHeight={false}
