@@ -37,7 +37,7 @@ export default function Register() {
         <div>
             <Container component="main" maxWidth="xs">
                 <div className={styles.paper}>
-                    <Avatar /* className={classes.avatar} */>
+                    <Avatar className={styles.lockIcon}>
                         <LockOutlinedIcon />
                     </Avatar>
                     <h1>Sign up</h1>
