@@ -8,6 +8,7 @@ import { createTheme, StylesProvider, ThemeProvider } from '@material-ui/core/st
 import { DynamicSnackbar } from './components/shared/dynamicSnackbar/DynamicSnackbar';
 import reportWebVitals from './reportWebVitals';
 import DynamicConfirmPopup from './components/shared/dynamicConfirmPopup/DynamicConfirmPopup';
+import SearchInPopupContainer from './components/shared/searchInPopup/SearchInPopupContainer';
 
 const theme = createTheme({
   palette: {
@@ -28,6 +29,7 @@ ReactDOM.render(
           <App />
           <DynamicSnackbar />
           <DynamicConfirmPopup />
+          <SearchInPopupContainer />
         </Provider>
       </StylesProvider>
     </ThemeProvider>

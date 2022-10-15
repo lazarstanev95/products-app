@@ -12,13 +12,20 @@ import styles from './ProductItem.module.css';
 import { useHistory } from 'react-router';
 import { IconButton } from '@material-ui/core';
 import { Favorite, FavoriteBorder } from '@material-ui/icons';
+import { setSerchText } from '../shared/searchInPopup/SearchInPopupSlice';
 
 export default function ProductItem(props: any) {
     const isAuthenticated = useSelector(selectIsAuthenticated);
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const onEdit = () => {
         history.push('/edit/' + props.products.id);
+    }
+
+    const handleSelect = () => {
+        let text = document.getSelection()?.toString();
+        dispatch(setSerchText(text));
     }
 
     return (
@@ -34,7 +41,9 @@ export default function ProductItem(props: any) {
                         {props.products.name}
                     </Typography>
                     <Typography>
-                        {`description - ${props.products.description}`}
+                        <div onMouseUp={handleSelect}>
+                            {`description - ${props.products.description}`}
+                        </div>
                     </Typography>
                     <Typography>
                         {props.products.price}

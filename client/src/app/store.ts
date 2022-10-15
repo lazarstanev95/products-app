@@ -5,6 +5,7 @@ import usersReducer from '../components/users/UsersSlice';
 import productsReducer from '../components/products/ProductsSlice';
 import dynamicConfirmPopupReducer from '../components/shared/dynamicConfirmPopup/DynamicConfirmPopupSlice';
 import cartReducer from '../components/cart/CartSlice';
+import searchInPopupReducer from "../components/shared/searchInPopup/SearchInPopupSlice";
 
 export const store = configureStore({
     reducer: {
@@ -12,7 +13,8 @@ export const store = configureStore({
         users: usersReducer,
         products: productsReducer,
         confirmPopup: dynamicConfirmPopupReducer,
-        cart: cartReducer
+        cart: cartReducer,
+        searchInPopup: searchInPopupReducer
     },
     middleware: getDefaultMiddleware({
         serializableCheck: false

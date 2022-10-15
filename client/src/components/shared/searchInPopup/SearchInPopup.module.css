@@ -1,0 +1,30 @@
+.innerWrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 96px;
+    height: 37px;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: rgb(0 0 0 / 20%) 0px 0px 4px 0px;
+}
+
+.searchActionsWrap {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: absolute;
+}
+
+.arrow {
+    width: 15px;
+    height: 15px;
+    transform: rotate(45deg);
+    background: #fff;
+    left: 40px;
+    bottom: -8px;
+    z-index: 20;
+    position: absolute;
+    box-shadow: rgb(0 0 0 / 20%) 1px 1px 3px -1px;
+}
