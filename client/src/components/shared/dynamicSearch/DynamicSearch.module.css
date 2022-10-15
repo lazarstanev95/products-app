@@ -40,7 +40,7 @@
 .clearIcon {
     cursor: pointer;
     position: absolute;
-    right: 15px;
+    right: 0px;
     top: 50%;
     transform: translateY(-50%);
     color: #8092a9;
