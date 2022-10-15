@@ -14,11 +14,6 @@
 
 .searchWrap {
     width: 300px;
-    display: flex;
-    align-items: center;
-    border: 1px solid #eceef4;
-    border-radius: 20px;
-    flex: 1;
     margin: 20px auto auto;
 }
 
