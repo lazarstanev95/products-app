@@ -13,7 +13,7 @@ exports.product_create_product = (req, res, next) => {
         name: req.body.name,
         price: req.body.price,
         description: req.body.description,
-        productImage: req.body.productImage
+        productImages: req.body.productImages
     });
     product.save()
         .then(result => {
@@ -48,7 +48,7 @@ exports.product_get_all = async (req, res, next) => {
     Product.find(query)
         .skip((page - 1) * docs)
         .limit(docs)
-        .select('name price description _id productImage likes')
+        .select('name price description _id productImages likes')
         .exec()
         .then(docs => {
             const response = {
@@ -58,7 +58,7 @@ exports.product_get_all = async (req, res, next) => {
                         name: doc.name,
                         price: doc.price,
                         description: doc.description,
-                        productImage: doc.productImage,
+                        productImages: doc.productImages,
                         likes: doc.likes,
                         _id: doc._id,
                         request: {
@@ -99,7 +99,7 @@ exports.products_delete_product = (req, res, next) => {
 exports.products_get_product = (req, res, next) => {
     const id = req.params.productId;
     Product.findById(id)
-        .select('name description price _id productImage')
+        .select('name description price _id productImages')
         .exec()
         .then(doc => {
             log.info('From database', doc);
@@ -127,13 +127,13 @@ exports.products_update_product = (req, res, next) => {
     const updatedName = req.body.name;
     const updatedDescription = req.body.description;
     const udpatedPrice = req.body.price;
-    const updatedProductImage = req.body.productImage;
+    const updatedProductImages = req.body.productImages;
     Product.findById(id)
         .then(product => {
             product.name = updatedName;
             product.description = updatedDescription;
             product.price = udpatedPrice;
-            product.productImage = updatedProductImage;
+            product.productImages = updatedProductImages;
             return product.save().then(result => {
                 res.status(200).json({
                     message: "Product updated",

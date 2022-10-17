@@ -5,7 +5,7 @@ const productSchema = mongoose.Schema({
     name: { type: String, required: false },
     price: { type: Number, required: false },
     description: {type: String, required: false },
-    productImage: { type: String, required: false },
+    productImages: { type: [String], required: false },
     likes: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'

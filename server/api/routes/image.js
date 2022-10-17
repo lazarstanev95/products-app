@@ -38,6 +38,6 @@ router.route("/uploadbase")
 
 router.get('/getImage/:key', imageController.getImageFromStorage);
 
-router.post('/uploadImage', checkAuth, upload.single('imageData'), imageController.uploadStorageImage)
+router.post('/uploadImage', checkAuth, upload.array('imageData'), imageController.uploadStorageImage)
 
 module.exports = router;

@@ -39,19 +39,24 @@ exports.getImageFromStorage = (req, res, next) => {
 
 exports.uploadStorageImage = async (req, res, next) => {
     try {
-        const file = req.file;
-        const result = await uploadFile(file);
-        await unlinkFile(file.path);
+        const files = req.files;
+        const reqFiles = [];
+        
+        for (let i = 0; i < files.length; i++) {
+            await uploadFile(files[i]);
+            await unlinkFile(files[i].path);
+            reqFiles.push({imageName: files[i].filename, imageData: files[i].path.replace(/\\/g, "/")})
+        }
 
-        const newImage = new Image({
-            imageName: req.body.imageName,
-            imageData: file.path.replace(/\\/g, "/")
-        });
+        const newImage = new Image({image: reqFiles});
 
-        await newImage.save();
+        let result = await newImage.save();
+        let images = result.image.map(item => item.imageName);
         res.status(200).json({
             success: true,
-            document: result
+            document: {
+                images: images
+            }
         });
         log.info('Image uploaded successfuly');
     } catch (error) {

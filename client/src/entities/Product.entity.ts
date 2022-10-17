@@ -4,6 +4,7 @@ export default class ProductEntity {
     description: string;
     price: number;
     productImage: string;
+    productImages: string[];
     likes: string[];
     
     constructor(data: any) {
@@ -11,11 +12,16 @@ export default class ProductEntity {
         this.name = data.name;
         this.description = data.description;
         this.price = data.price;
-        this.productImage = this.getProductUrl(data.productImage);
+        this.productImage = this.getProductUrl(data?.productImages[0]);
+        this.productImages = this.getAllProductImagesUrl(data.productImages);
         this.likes = data.likes;
     }
 
     getProductUrl(productImage: string) {
         return `/image/getImage/${productImage}`;
+    }
+
+    getAllProductImagesUrl(productImages: string[]) {
+        return productImages.map(item => `/image/getImage/${item}`);
     }
 }

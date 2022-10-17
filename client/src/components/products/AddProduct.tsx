@@ -14,7 +14,7 @@ export default function AddProduct(props: any) {
     const history = useHistory();
     const [multerImage, setMulterImage] = useState(DefaultImg);
     const [isEdit, setIsEdit] = useState(false);
-    const [product, setProduct] = useState({ name: '', description: '', productImage: '', price: 0 });
+    const [product, setProduct] = useState<any>({ name: '', description: '', productImages: [], price: 0 });
 
     useEffect(() => {
         if (props.match.params.id) {
@@ -31,7 +31,7 @@ export default function AddProduct(props: any) {
 
     const handleChange = (event: any) => {
         const { name, value } = event.target;
-        setProduct(prevState => ({
+        setProduct((prevState: any) => ({
             ...prevState,
             [name]: value
         }))
@@ -40,8 +40,13 @@ export default function AddProduct(props: any) {
     const handleSave = (event: any) => {
         event.preventDefault();
         if (isEdit) {
-            product.productImage = product.productImage.replace("/image/getImage/", "");
-            ProductService.saveProductById(props.match.params.id, product)
+            const payloadData = {
+                name: product.name, 
+                description: product.description, 
+                productImages: product?.productImages.map((item: any) => item.replace("/image/getImage/", "")), 
+                price: product.price
+            }
+            ProductService.saveProductById(props.match.params.id, payloadData)
                 .then((response: any) => {
                     dispatch(openSnackbar({
                         message: response.data.message,
@@ -71,14 +76,10 @@ export default function AddProduct(props: any) {
 
     const uploadImageToStore = (event: any) => {
         event.preventDefault();
-        let file = event.target.files && event.target.files[0];
-        if (!file) {
-            return;
-        }
         let imageFormObj = new FormData();
-
-        imageFormObj.append("imageName", "multer-image-" + Date.now());
-        imageFormObj.append("imageData", file);
+        for (const key of Object.keys(event.target.files)) {
+            imageFormObj.append('imageData', event.target.files[key]);
+        }
 
         const options = {
             onUploadProgress: (progressEvent: any) => {
@@ -88,12 +89,12 @@ export default function AddProduct(props: any) {
             }
         }
 
-        setMulterImage(URL.createObjectURL(file));
+        setMulterImage(URL.createObjectURL(event.target.files[0]));
 
         ProductService.uploadImageToStore(imageFormObj, options)
             .then((response: any) => {
                 if (response.data.success) {
-                    setProduct(prev => ({ ...prev, productImage:  isEdit ? `/image/getImage/${response.data.document.Key}` : response.data.document.Key }));
+                    setProduct((prev: any) => ({ ...prev, productImages:  isEdit ? response.data.document.images.map((item: any) => `/image/getImage/${item}`) : response.data.document.images }));
                     dispatch(openSnackbar({
                         message: 'Image has been successfully uploaded',
                         severity: 'success'
@@ -141,8 +142,8 @@ export default function AddProduct(props: any) {
                             fullWidth
                         />
                         <br />
-                        <input type="file" name="productImage" onChange={(e) => uploadImageToStore(e)} />
-                        <img src={isEdit ? product.productImage : multerImage} alt="uploaded" width="400" height="400" />
+                        <input type="file" name="productImages" multiple onChange={(e) => uploadImageToStore(e)} />
+                        <img src={isEdit ? product.productImages[0] : multerImage} alt="uploaded" width="400" height="400" />
                         <Button
                             type="submit"
                             fullWidth
