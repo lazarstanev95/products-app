@@ -1,8 +1,8 @@
 import Button from '@material-ui/core/Button';
-import Tooltip from '@material-ui/core/Tooltip';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from './UsersSlice';
 import { useHistory } from 'react-router';
+import DynamicTooltip, { PlacementEnum } from '../shared/dynamicTooltip/DynamicTooltip';
 
 export default function UserItem(props: any) {
     const history = useHistory();
@@ -19,13 +19,18 @@ export default function UserItem(props: any) {
             <div style={{ marginLeft: 20, width: 200, textAlign: 'center', fontSize: 20, fontWeight: 400 }}>{props.users.lastName}</div>
             <div style={{ marginLeft: 20, width: 200, textAlign: 'center', fontSize: 20, fontWeight: 400 }}>{props.users.email}</div>
             <div style={{ marginLeft: 20, width: 200, textAlign: 'center', fontSize: 20, fontWeight: 400 }}>{props.users.isAdmin ? 'yes' : 'no'}</div>
-            <Tooltip arrow disableHoverListener={!disabledUser} title="Cannot edit the current user">
+            <DynamicTooltip 
+                value={"Cannot edit the current user"}
+                hideTooltip={!disabledUser}
+                showAlways={true}
+                placement={PlacementEnum.BOTTOM}
+            >
                 <span>
                     <Button variant="contained" size="small" disabled={disabledUser} color="secondary" onClick={onEdit} >
                         Edit
                     </Button>
                 </span>
-            </Tooltip>
+            </DynamicTooltip>
         </div>
     )
 }

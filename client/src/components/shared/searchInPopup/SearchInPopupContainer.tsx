@@ -5,7 +5,7 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import styles from './SearchInPopupContainer.module.css';
 import GenericHelpers from "../GenericHelpers";
 import { openSnackbar } from "../dynamicSnackbar/DynamicSnackbarSlice";
-import Tooltip from '@material-ui/core/Tooltip';
+import DynamicTooltip, { PlacementEnum } from "../dynamicTooltip/DynamicTooltip";
 
 export default function SearchInPopupContainer () {
     
@@ -28,11 +28,15 @@ export default function SearchInPopupContainer () {
         const searchItems = [
             {
                 render: () => {
-                    return <Tooltip title="Copy" arrow placement="top">
+                    return <DynamicTooltip 
+                        value={"Copy"}
+                        showAlways={true}
+                        placement={PlacementEnum.TOP}
+                    >
                         <FileCopyIcon
                             className={styles.button}
                         />
-                    </Tooltip>
+                    </DynamicTooltip>
                 },
                 onClick: handleCopyToClipboard
             }

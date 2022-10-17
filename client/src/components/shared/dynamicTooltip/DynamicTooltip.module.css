@@ -1,0 +1,26 @@
+.wrap,div.wrap {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tooltip, div.tooltip {
+    padding: 4px 12px;
+    background-color: #0a0f38;
+    font-size: 12px;
+    max-width: 150px;
+    word-wrap: break-word;
+}
+
+.tooltipArrow, span.tooltipArrow {
+    color: #0a0f38;
+}
+
+.fullWidth {
+    max-width: none;
+}
+
+.hidenTooltip {
+    min-width: 0 !important;
+    padding: 0 !important;
+}
