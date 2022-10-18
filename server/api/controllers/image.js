@@ -22,7 +22,7 @@ exports.uploadImage = (req, res, next) => {
             });
         })
         .catch(err => {
-            log.info(err);
+            log.error(err);
             res.status(500).json({
                 error: err
             });
@@ -31,24 +31,33 @@ exports.uploadImage = (req, res, next) => {
 
 exports.getImageFromStorage = (req, res, next) => {
     log.info(req.params);
-    const key = req.params.key;
-    const readStream = getFileStream(key);
+    try {
+        const key = req.params.key;
+        const readStream = getFileStream(key);
 
-    readStream.pipe(res);
+        readStream.on('error', (err) => {
+            log.error('error', err)
+            res.status(500).json({
+                error: err
+            });
+        }).pipe(res);
+    } catch (error) {
+        log.error(error);
+    }
 };
 
 exports.uploadStorageImage = async (req, res, next) => {
     try {
         const files = req.files;
         const reqFiles = [];
-        
+
         for (let i = 0; i < files.length; i++) {
             await uploadFile(files[i]);
             await unlinkFile(files[i].path);
-            reqFiles.push({imageName: files[i].filename, imageData: files[i].path.replace(/\\/g, "/")})
+            reqFiles.push({ imageName: files[i].filename, imageData: files[i].path.replace(/\\/g, "/") })
         }
 
-        const newImage = new Image({image: reqFiles});
+        const newImage = new Image({ image: reqFiles });
 
         let result = await newImage.save();
         let images = result.image.map(item => item.imageName);
