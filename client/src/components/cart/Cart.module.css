@@ -14,7 +14,7 @@
 .emptyCart {
     display: flex;
     align-items: center;
-    width: 850px;
+    width: 100%;
     height: 58px;
     background-color: #cff4fc;
     border-color: #b6effb;
@@ -22,6 +22,14 @@
     border: 1px solid transparent;
     border-radius: 0.25rem;
     padding-left: 10px;
+}
+
+@media screen and (max-width: 767px) {
+    .emptyCart {
+        composes: emptyCart;
+        padding-right: 10px;
+        margin-bottom: 10px;
+    }
 }
 
 .totalWrap {
