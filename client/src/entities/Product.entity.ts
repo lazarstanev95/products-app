@@ -18,7 +18,10 @@ export default class ProductEntity {
     }
 
     getProductUrl(productImage: string) {
-        return `/image/getImage/${productImage}`;
+        if (productImage) {
+            return `/image/getImage/${productImage}`;
+        }
+        return '';
     }
 
     getAllProductImagesUrl(productImages: string[]) {

@@ -14,6 +14,9 @@ export default class CartEntity {
     }
 
     getProductUrl(productImage: string) {
-        return `/image/getImage/${productImage}`;
+        if (productImage) {
+            return `/image/getImage/${productImage}`;
+        }
+        return '';
     }
 }
