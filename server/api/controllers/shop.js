@@ -9,7 +9,7 @@ exports.getCart = (req, res, next) => {
         .populate('cart.items.productId')
         .execPopulate()
         .then(user => {
-            const products = user.cart.items;
+            const products = user.cart.items.filter(item => item.productId);
             const totalCount = products.reduce((a, c) => a + c.quantity, 0);
             const totalPrice = products.reduce((a, c) => a + c.productId.price * c.quantity, 0);
             res.status(200).json({
