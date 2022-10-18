@@ -36,8 +36,8 @@ exports.getImageFromStorage = (req, res, next) => {
         const readStream = getFileStream(key);
 
         readStream.on('error', (err) => {
-            log.error('error', err)
-            res.status(500).json({
+            log.error(err.message)
+            res.status(403).json({
                 error: err
             });
         }).pipe(res);
